@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Scrolling landing page</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                outline: 0;
+                box-sizing: border-box;
+            }
+            .page {
+                width: 100vw;
+                height: 100vh;
+            }
+            #loadingBar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 15px;
+                width: 100%;
+                --pos: var(--bg-var, 0);
+                background-image: linear-gradient(to right, red, red var(--pos), transparent var(--pos));
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <div id="loadingBar"></div>
+            <div class="page" style="background: coral"></div>
+            <div class="page" style="background: palevioletred"></div>
+            <div class="page" style="background: violet"></div>
+            <div class="page" style="background: burlywood"></div>
+        </div>
+        <script>
+            function getScrollingStatus() {
+                // most of the time is document.documentElement, but body in quark mode
+                const scrollEl = document.scrollingElement
+                // all height - visible height
+                const height = scrollEl.scrollHeight - scrollEl.clientHeight
+                const percentage = `${scrollEl.scrollTop / height * 100}%`
+                // or to the root document.documentElement
+                scrollEl.style.setProperty("--bg-var", percentage)
+            }
+            // TODO: throttle and debounce
+            document.addEventListener("scroll", getScrollingStatus)
+        </script>
+    </body>
+</html>
