@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>background with watermark</title>
+        <style>
+            *{ padding: 0; margin: 0}
+            #wrapper {
+                background-color: #ED4342;
+                width: 100vw;
+                height: 100vh;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="wrapper">
+        </div>
+        <div id="canvas"></div>
+        <script>
+            (function(){
+                function __canvasWaterMark({
+                    container = document.body,
+                    width = "300px",
+                    height = "200px",
+                    textAlign = "center",
+                    textBaseline = "middle",
+                    font = "20px Microsoft Yahei",
+                    fillStyle = "rgba(255,255,255, 0.1)",
+                    content = "What 2 Eat",
+                    rotate = "45",
+                    zIndex = 10000
+                } = {}) {
+                    const canvas = document.createElement("canvas")
+                    canvas.setAttribute("width", width)
+                    canvas.setAttribute("height", height)
+                    const ctx = canvas.getContext("2d")
+                    const w = canvas.width
+                    const h = canvas.height
+
+                    ctx.textAlign = textAlign
+                    ctx.textBaseline = textBaseline
+                    ctx.font = font
+                    ctx.fillStyle = fillStyle
+                    ctx.translate(w/2, h/2) // 中心点旋转
+                    ctx.rotate(Math.PI / 180 * rotate)
+                    ctx.translate(-w/2, -h/2)
+                    ctx.fillText(content, parseFloat(width) / 2, parseFloat(height) / 2)
+
+
+                    const base64Url = canvas.toDataURL() // get fine canvas
+                    return base64Url
+
+                    // const __wm = document.querySelector(".__wm")
+                    // const watermarkDiv = __wm || document.createElement("div")
+                    // const styleStr = `
+                    //     position: fixed;
+                    //     top: 0;
+                    //     left: 0;
+                    //     right: 0;
+                    //     bottom: 0;
+                    //     width: 100%;
+                    //     height: 100%;
+                    //     z-index = ${zIndex};
+                    //     pointer-events: none;
+                    //     background-repeat: repeat;
+                    //     background-image: url('${base64Url}')
+                    // `
+                    // watermarkDiv.setAttribute("style", styleStr)
+                    // watermarkDiv.classList.add("__wm")
+                    // if(!__wm) {
+                    //     container.insertBefore(watermarkDiv, container.firstChild)
+                    // }
+                }
+                // module
+                if(typeof module !== "undefined" && module.exports) {
+                    // commonJs
+                    module.exports = __canvasWaterMark
+                } else if(typeof define == "function" && define.amd) {
+                    // amd
+                    define(function() {
+                        return __canvasWaterMark
+                    })
+                } else {
+                    window.__canvasWaterMark = __canvasWaterMark
+                }
+            })()
+            window.onload = () => {
+                const wrapper = document.getElementById("wrapper")
+                const { height, width } = wrapper.getBoundingClientRect()
+                const canvasUrl = __canvasWaterMark({
+                    container: document.getElementById("wrapper"),
+                    width: width / 4,
+                    height: height,
+                    rotate: "-90",
+                    font: "150px Microsoft Yahei"
+                })
+                wrapper.style = `
+                    background-repeat: repeat;
+                    background-image: url("${canvasUrl}")
+                `
+            }
+            
+        </script>
+    </body>
+</html>
