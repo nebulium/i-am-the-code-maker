@@ -18,7 +18,7 @@
         <script>
             (function(){
                 function __canvasWaterMark({
-                    container = document.body,
+                    // container = document.body,
                     width = "300px",
                     height = "200px",
                     textAlign = "center",
@@ -27,7 +27,7 @@
                     fillStyle = "rgba(255,255,255, 0.1)",
                     content = "What 2 Eat",
                     rotate = "45",
-                    zIndex = 10000
+                    // zIndex = 10000
                 } = {}) {
                     const canvas = document.createElement("canvas")
                     canvas.setAttribute("width", width)
@@ -87,7 +87,7 @@
                 const wrapper = document.getElementById("wrapper")
                 const { height, width } = wrapper.getBoundingClientRect()
                 const canvasUrl = __canvasWaterMark({
-                    container: document.getElementById("wrapper"),
+                    // container: document.getElementById("wrapper"),
                     width: width / 4,
                     height: height,
                     rotate: "-90",
