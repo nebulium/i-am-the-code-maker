@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Rating Bar with stars</title>
+    <style>
+      * {
+        margin: 0;
+        outline: 0;
+        box-sizing: border-box;
+      }
+      body {
+        padding: 10px;
+      }
+      .playground {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .rating-bar-cont {
+        display: inline-flex;
+      }
+      .rating-bar-cont > * {
+        margin-right: 10px;
+      }
+      input[type='range'] {
+        appearance: none;
+        -webkit-appearance: none;
+        margin: 0;
+        outline: 0;
+        cursor: pointer;
+        width: calc(var(--number, 5) * 2em);
+        --mask-url: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 17 20'%3E%3Cpath d='M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z'/%3E%3C/svg%3E");
+        /* notice the mask width per star is the same as above */
+        --mask: var(--mask-url) repeat-x left center/ 2em 100%;
+      }
+      input[type='range']::-webkit-slider-runnable-track {
+        height: 2em;
+        background: rgb(184, 179, 179);
+        mask: var(--mask);
+        --webkit-mask: var(--mask);
+      }
+      input[type='range']::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 0;
+        height: 100%;
+        box-shadow: -10em 0 0 10em coral;
+      }
+      input[type='range']:focus::-webkit-slider-thumb {
+        box-shadow: -10em 0 0 10em coral;
+        background: #f59b00;
+      }
+      input[type='range'][readonly] {
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Rating Bar with Stars</h2>
+    <p>with pure css which can be operated by click or drag operations</p>
+    <p>Belowing is the svg of a star:</p>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 20 20"
+    >
+      <path
+        d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"
+      />
+    </svg>
+    <div class="playground">
+      <!--
+                1. try to control the style of type=range with -webkit-slider-runnable-track and
+                    -webkit-slider-thumb, actually to control the style of shadow elements of type=range
+                2.with the help of mask and flexible use of shadow to implement the rating bar
+            -->
+      <div class="rating-bar-cont">
+        <label for="rating-bar">Rating Bar with 5 stars</label>
+        <input
+          type="range"
+          name="rating-bar"
+          id="rating-bar"
+          min="0"
+          max="5"
+          step="0.1"
+        />
+        <div id="rating-value"></div>
+      </div>
+      <div class="rating-bar-cont" style="--number: 10">
+        <label for="rating-bar-10">Rating Bar with 10 stars</label>
+        <input
+          type="range"
+          name="rating-bar"
+          id="rating-bar-10"
+          min="0"
+          max="5"
+          step="0.1"
+        />
+        <!-- <span id="rating-value"></span> -->
+      </div>
+      <div class="rating-bar-cont">
+        <label>another way: TBC</label>
+      </div>
+    </div>
+    <script lang="javascript">
+      const value = document.querySelector("#rating-value")
+      const rating = document.querySelector("#rating-bar")
+      value.textContent = rating.value
+      rating.addEventListener("input", (event) => {
+          value.textContent = event.target.value
+      })
+    </script>
+  </body>
+</html>
