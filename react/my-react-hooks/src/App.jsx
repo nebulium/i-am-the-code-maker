@@ -4,10 +4,14 @@ import viteLogo from '/vite.svg';
 import './App.css';
 import { useInterval } from './hooks/useInterval';
 import { useHover } from './hooks/useHover';
+import { useFetch } from './hooks/useFetch';
 
 function App() {
   const [count, setCount] = useState(0);
   const [hoverRef, isHovered] = useHover();
+  const { data, refetch, isLoading } = useFetch(
+    'https://jsonplaceholder.typicode.com/posts/1'
+  );
 
   useInterval(() => {
     setCount((prevCount) => prevCount + 1);
@@ -30,9 +34,13 @@ function App() {
         </button>
         <p>Button is {isHovered ? 'hovered' : 'not hovered'}</p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <div className="card">
+        <button onClick={refetch}>refetch data</button>
+        <div>
+          <p>{isLoading ? 'Loading' : 'Fetched'}</p>
+          <p>{data && JSON.stringify(data)}</p>
+        </div>
+      </div>
     </>
   );
 }
