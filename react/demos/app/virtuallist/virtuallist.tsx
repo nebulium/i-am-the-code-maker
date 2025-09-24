@@ -96,7 +96,7 @@ const VirtualList = ({
       <div
         className="w-full relative"
         style={{
-          height: itemCount * itemSize,
+          height: itemCount * itemSize, // for scroll bar
         }}
       >
         {visibleItems}
